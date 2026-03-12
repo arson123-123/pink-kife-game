@@ -41,9 +41,9 @@
 <canvas id="game" width="420" height="720"></canvas>
 
 <script>
-// Dreamlo 配置（已填入你的 code）
-const privateCode = "hBiZyDUiqk28ndM-W0AogwdbX7sjPI-0qiCAj73qLwSA";
-const publicCode  = "69b2d84b8f40bb1b149ee2a7";
+// Dreamlo 配置（已更新最新 code）
+const privateCode = "v59O889_ukWRWOit24r2iQ0yTCRzNUb0-uqb9n_jlVqg";
+const publicCode  = "69b2dd9f8f40bb1b149f40b0";
 const dreamloURL = "https://dreamlo.com/lb/";
 
 // 遊戲變數
@@ -115,6 +115,7 @@ async function submitScore() {
     const response = await fetch(url);
     if (response.ok) {
       alert("已上榜！全世界都見到你啦～");
+      loadLeaderboard();  // 即時刷新
     } else {
       alert("上榜失敗，請稍後再試");
     }
@@ -124,12 +125,19 @@ async function submitScore() {
   restartGame();
 }
 
-// 分享到 Facebook
+// 分享到 Facebook（已優化）
 function shareToFacebook() {
-  const text = `我喺親親無限接刀大賽拿到 ${score} 分！來挑戰我啦！🔪💗`;
+  const text = `我喺親親無限接刀大賽拿到 ${score} 分！🔥\n來挑戰我啦～ 💗🔪\n遊戲連結：https://arson123-123.github.io/pink-kife-game/`;
   const gameUrl = "https://arson123-123.github.io/pink-kife-game/";
   const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(gameUrl)}&quote=${encodeURIComponent(text)}`;
-  window.open(fbUrl, '_blank');
+
+  console.log('嘗試開 FB 分享：', fbUrl);
+
+  const fbWindow = window.open(fbUrl, '_blank', 'width=600,height=500,scrollbars=yes,resizable=yes');
+
+  if (!fbWindow || fbWindow.closed || typeof fbWindow.closed === 'undefined') {
+    alert("瀏覽器阻擋咗彈出視窗，請允許彈出視窗後再試！\n\n或者手動複製以下內容貼去 Facebook 分享：\n\n" + text);
+  }
 }
 
 // 載入排行榜
@@ -137,6 +145,7 @@ async function loadLeaderboard() {
   const url = `${dreamloURL}${publicCode}/json`;
   try {
     const response = await fetch(url);
+    if (!response.ok) throw new Error('請求失敗：' + response.status);
     const data = await response.json();
     let html = '<strong>🌍 全球 Top 10</strong><br>';
     if (data && data.length > 0) {
@@ -148,7 +157,8 @@ async function loadLeaderboard() {
     }
     leaderboardEl.innerHTML = html;
   } catch (err) {
-    leaderboardEl.innerHTML = '載入排行榜失敗，請檢查網路';
+    console.error('載入排行榜錯誤：', err);
+    leaderboardEl.innerHTML = '載入排行榜失敗（請檢查網路或稍後再試）';
   }
 }
 
@@ -157,7 +167,7 @@ function restartGame() {
   startGame();
 }
 
-// 遊戲迴圈
+// 遊戲迴圈（同之前）
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 const scoreEl = document.getElementById('score');
