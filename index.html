@@ -13,7 +13,7 @@
     button { margin:10px; padding:15px 50px; font-size:32px; background:#c2185b; color:white; border:none; border-radius:20px; cursor:pointer; }
     input { font-size:28px; padding:10px; width:70%; text-align:center; border-radius:15px; margin:10px; }
     #leaderboard { margin-top:20px; font-size:24px; text-align:left; max-width:85%; line-height:1.6; }
-    #logoInStart { width:120px; height:120px; margin-bottom:20px; }  /* 開始畫面 logo 大小 */
+    #logoInStart { width:120px; height:120px; margin-bottom:20px; }
   </style>
 </head>
 <body>
@@ -41,7 +41,7 @@
 <canvas id="game" width="420" height="720"></canvas>
 
 <script>
-// Dreamlo 配置
+// Dreamlo 配置（已填入你的 code）
 const privateCode = "hBiZyDUiqk28ndM-W0AogwdbX7sjPI-0qiCAj73qLwSA";
 const publicCode  = "69b2d84b8f40bb1b149ee2a7";
 const dreamloURL = "https://dreamlo.com/lb/";
@@ -68,7 +68,7 @@ knifeImg.onload = () => knifeLoaded = true;
 holderImg.onload = () => holderLoaded = true;
 logoImg.onload = () => logoLoaded = true;
 
-// 畫刀、刀座、logo（遊戲內）
+// 畫刀、刀座、logo
 function drawKnife(k) {
   if (knifeLoaded) {
     ctx.save();
@@ -106,6 +106,7 @@ function showGameOver() {
   loadLeaderboard();
 }
 
+// 上榜到 Dreamlo
 async function submitScore() {
   const name = document.getElementById('playerName').value.trim() || "匿名玩家";
   const url = `${dreamloURL}${privateCode}/add/${encodeURIComponent(name)}/${score}`;
@@ -123,6 +124,7 @@ async function submitScore() {
   restartGame();
 }
 
+// 分享到 Facebook
 function shareToFacebook() {
   const text = `我喺親親無限接刀大賽拿到 ${score} 分！來挑戰我啦！🔪💗`;
   const gameUrl = "https://arson123-123.github.io/pink-kife-game/";
@@ -130,6 +132,7 @@ function shareToFacebook() {
   window.open(fbUrl, '_blank');
 }
 
+// 載入排行榜
 async function loadLeaderboard() {
   const url = `${dreamloURL}${publicCode}/json`;
   try {
